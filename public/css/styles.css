@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    background-color: #f8f9fa;
+    font-size: 18px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+}
+.btn-primary {
+    background: #468dd4 !important;
+    color: #ffff !important;
+}
+.btn-light {
+    background: #e0f0ff !important;
+    color: #ffff !important;
+}
+.btn-light:hover {
+    background: #ffff !important;
+    border: none !important;
+    color: #468dd4 !important;
+}
+
+.bg-primary {
+    background: #468dd4 !important;
+}
+
+.fw-100 {
+    font-weight: 100;
+}
+.fw-200 {
+    font-weight: 200;
+}
+.fw-300 {
+    font-weight: 300;
+}
+.fw-400 {
+    font-weight: 400;
+}
+.fw-500 {
+    font-weight: 500;
+}
+.fw-600 {
+    font-weight: 600;
+}
+.fw-700 {
+    font-weight: 700;
+}
+.fw-800 {
+    font-weight: 800;
+}
+.fw-900 {
+    font-weight: 900;
+}
+
+.active {
+    color : #468dd4 !important;
+    font-weight: 600 !important;
+}
+
+.text-primary {
+    color : #256aaf !important;
+}
+
+/* .border-primary {
+    border: 2px solid #256aaf !important;
+} */
+
+.title-underline {
+    display: inline-block;
+    font-weight: 600;
+    position: relative;
+}
+
+.title-underline::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -10px; /* jarak dari teks ke garis */
+    transform: translateX(-50%);
+    width: 60%; /* panjang garis relatif terhadap teks */
+    height: 5px; /* ketebalan garis */
+    background-color: #007bff; /* warna biru Bootstrap */
+    border-radius: 10px; /* rounded edge */
+}
