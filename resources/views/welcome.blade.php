@@ -56,36 +56,34 @@
     <div class="hero-container" style="padding-top: 100px; background-image: url('{{ asset('image/bg-water-splash.jpg') }}'); background-size: cover; background-position: center; width: 100%; height: 100vh;">
         <section class="container py-5">
             <div class="hero d-flex align-items-center row">
-                <div class="hero-content ms-5 col-12 col-md-6">
-                    <h1>Transformasi Digital Sektor Pelayaran Indonesia</h1>
-                    <p>Menghubungkan semua stakeholder sektor pelayaran dalam pemanfaatan teknologi crewing pelaut yang terintegrasi</p>
+                <div class="hero-content p-4 col-12 col-md-6">
+                    <h1>Digital Transformation of the Indonesian Shipping Sector</h1>
+                    <p>Connecting all shipping sector stakeholders in the use of integrated seafarer crewing technology</p>
                 </div>
             </div>
         </section>
     </div>
 
-    ---
-
     {{-- tentang kami  --}}
-    <section class="container my-5" id="tentang">
-        <div class="d-flex justify-content-center mb-5">
-            <h2 class="text-center mb-4 title-underline">Tentang Kami</h2>
+    <section class="container mb-3" id="tentang">
+        <div class="d-flex justify-content-center mb-3">
+            <h2 class="text-center mb-4 title-underline">About Us</h2>
         </div>
         <div class="row mx-0">
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-5 mb-3 mb-md-0">
                 <img src="{{ asset('image/pelayaran.jpg') }}" width="100%" height="100%" alt="" class="d-block object-fit-cover rounded-3">
                 {{-- <img src="{{ asset('image/ship2.jpg') }}" width="60%" height="300px" class="object-fit-cover rounded-3 d-block mx-auto" style="top: -150px; right: 0; position: relative" alt=""> --}}
             </div>
             <div class="col-12 col-md-7 p-5 text-white text-justify bg-primary rounded-3">
-                <strong>PT. WHS Global Mandiri</strong> adalah perusahaan pelayaran yang berdiri sejak tahun 2006 dan berkantor pusat di Jakarta, Jl. Pangeran Jayakarta Komp. 85 No. AB-AC Kota Jakarta Pusat, DKI Jakarta 10730 Indonesia, serta memiliki kantor cabang di Banjarmasin, Kalimantan Selatan. Perusahaan ini merupakan bagian dari Perusahaan Tanoto Maritime Group yang didirikan oleh bapak Tanoto Iskandar pada tahun 1973 yang mencakup layanan mulai dari pembangunan kapal baru, perbaikan kapal, penyewaan kapal, jasa pengiriman barang, agen pelayaran, manajemen armada, hingga layanan perantara (brokerage) dan berkantor pusat di Singapura. PT. WHS Global Mandiri berfokus pada penyewaan kapal atau chartering dan saat ini telah memiliki 54 armada kapal dengan jenis kapal Tugboat, Tongkang, SPB (Self-Propeller Barge), SPOB (Self-Propeller Oil Barge), dan Kapal Cargo dengan awak kapal yang bertugas saat ini sebanyak 510 orang.
+                <strong>PT. WHS Global Mandiri</strong> is a shipping company that was founded in 2006 and has its head office in Jakarta, Jl. Prince Jayakarta Komp. 85 No. AB-AC Central Jakarta City, DKI Jakarta 10730 Indonesia, and has a branch office in Banjarmasin, South Kalimantan. This company is part of the Tanoto Maritime Group Company which was founded by Mr. Tanoto Iskandar in 1973 which includes services ranging from new ship construction, ship repair, ship rental, goods shipping services, shipping agents, fleet management, to brokerage services and is headquartered in Singapore. PT. WHS Global Mandiri focuses on ship rental or chartering and currently has a fleet of 54 ships with the types of Tugboat, Barge, SPB (Self-Propeller Barge), SPOB (Self-Propeller Oil Barge), and Cargo Ships with a current crew of 510 people.
             </div>
         </div>
     </section>
 
-    <section id="karir" class="mb-5">
+    <section id="karir" class="mb-3">
         <div class="container">
             <div class="d-flex justify-content-center">
-                <h2 class="text-center mb-5 title-underline">Karir</h2>
+                <h2 class="text-center mb-5 title-underline">Career</h2>
             </div>
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 @foreach ($karir as $item)
@@ -110,6 +108,27 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+        </div>
+    </section>
+
+    
+    {{-- gallery  --}}
+    <section class="container mb-5" id="gallery">
+        <div class="d-flex justify-content-center mb-3">
+            <h2 class="text-center mb-4 title-underline">Gallery</h2>
+        </div>
+        <div class="row mb-3">
+            {{-- <video controls preload="metadata" poster="cover.jpg" width="100px" height="360">
+            <source src="{{ asset('image/gallery/video1.mp4') }}" type="video/mp4">
+            <track kind="subtitles" srclang="id" label="Indonesia" src="subs-id.vtt" default>
+            </video> --}}
+        </div>
+        <div class="row">
+            <div class="d-flex gap-3 flex-wrap justify-content-center mx-0">
+                @for ($i = 1; $i < 7; $i++)
+                    <img src="{{ asset('image/gallery/' . $i . '.jpg') }}" style="width: 250px; height: 250px; object-fit: cover; border-radius: 5px" alt="">
+                @endfor
             </div>
         </div>
     </section>

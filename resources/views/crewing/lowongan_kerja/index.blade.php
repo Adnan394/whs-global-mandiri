@@ -43,7 +43,7 @@
                                         <td>{{ $item->employment_type->name }}</td>
                                         <td>{{ $item->sallary }}</td>
                                         <td>
-                                            <a href="{{ route('lowongan.slug', $item->slug) }}" target="_blank" class="btn btn-primary"><i class="bi bi-eye"></i></a>
+                                            <a href="{{ route('lowongan_kerja.slug', $item->slug) }}" target="_blank" class="btn btn-primary"><i class="bi bi-eye"></i></a>
                                             <a href="{{ route('lowongan.edit', $item->id) }}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
                                             <form action="{{ route('lowongan.destroy', $item->id) }}" method="POST" class="d-inline">
                                                 @csrf

@@ -2,6 +2,140 @@
 
 @section('content')
     <main id="main">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit alias consequatur omnis eaque, mollitia rem beatae quis blanditiis a debitis dicta praesentium architecto et cumque aliquid ipsum itaque sapiente recusandae ipsam sit, quam voluptatibus? Obcaecati porro ducimus voluptatibus eos id! Repellendus, molestias quod consequuntur vel minima perferendis id officia ipsum assumenda fuga odio expedita, maiores, error culpa corporis temporibus quibusdam repudiandae autem quis sit eius. Explicabo, laboriosam eveniet hic quibusdam delectus ea culpa excepturi ab! Facilis pariatur reprehenderit saepe. Ipsum modi fugit repellendus perferendis sit enim commodi at, eos, sapiente ad optio aperiam aspernatur similique eum culpa expedita, quis sequi quasi facilis! Eum omnis praesentium nulla labore ipsa numquam doloribus incidunt cumque excepturi minima, totam obcaecati alias ex nostrum eos earum laboriosam facilis vel amet dolor fugiat? Corporis iusto, quidem ex cupiditate vitae placeat, explicabo quas dignissimos rerum hic iure, assumenda repellendus aut asperiores. Assumenda voluptatum eveniet, consectetur corrupti aut maiores recusandae expedita rem id architecto animi dolorem, asperiores repudiandae tenetur dolores nulla officia sequi quibusdam consequuntur! Pariatur tempore, provident reprehenderit, laborum tempora illo impedit, repellendus nemo officiis facilis harum obcaecati? Velit eaque voluptate rerum rem, fuga illum saepe nulla harum doloribus. Modi assumenda voluptatibus, quia nihil quis esse ipsum? Porro ab aliquam corrupti omnis commodi culpa reprehenderit consequatur aperiam voluptatum vero officia ad recusandae error maxime similique doloribus, esse modi et eos repellat atque quasi? Labore, sit fugiat aspernatur voluptatibus voluptate fugit ab nihil ducimus sint doloremque laudantium accusamus iure eos modi dicta est ea minus numquam, maxime blanditiis culpa quibusdam ullam? Esse perferendis doloribus odit sit, quod dignissimos dolore nam voluptas iusto molestiae vel libero minus a placeat natus dolorem cum. Eveniet id quia alias iste nesciunt commodi atque, minus ex? Repellat voluptate accusamus numquam mollitia, laborum quasi ullam exercitationem quisquam, alias fugiat assumenda magni nulla deserunt eius sit! Nulla cum alias corrupti aperiam officiis. Voluptatum quis debitis molestiae dolor sunt vitae numquam! Reiciendis temporibus enim, quis omnis, iusto recusandae ullam animi pariatur aut deleniti eum, culpa in. Itaque mollitia numquam nulla fuga rem veritatis esse culpa, voluptatibus ea consequuntur fugiat sequi dicta tempora repellat necessitatibus excepturi at fugit tenetur iure voluptates vitae incidunt? Veritatis, error fugit. Sint animi atque beatae illum exercitationem similique aliquid reiciendis saepe. Expedita aliquid ea sunt, aspernatur nihil quis qui repudiandae molestias sint, assumenda distinctio illum nulla voluptas quam atque corporis sit quaerat corrupti accusantium officia est dignissimos perferendis, incidunt reiciendis! Exercitationem perspiciatis asperiores id ea, illum eos, aut excepturi, ducimus repudiandae voluptatibus sapiente harum neque quam tempora magni quia incidunt corrupti facere? Hic architecto fugit porro libero maxime, quae tempore voluptate nam explicabo. Iste, vero ullam optio quia ducimus nisi molestiae aliquam quibusdam exercitationem cumque est voluptatum veritatis earum deserunt incidunt maiores a, explicabo rerum recusandae aspernatur! Recusandae aliquid nam suscipit ipsam. Unde, ipsum doloribus expedita repellendus iste veritatis eligendi sequi ipsam? A earum doloribus neque ullam corporis, repellendus ad sit repudiandae dicta enim itaque unde accusantium quo alias. Officiis natus obcaecati, molestiae quibusdam labore molestias ut architecto non, unde dolorem minima?
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+        </ol>
+        </nav>
+        
+        <section class="section dashboard">
+        <div class="row">
+          <!-- Left side columns -->
+          <div class="col-lg-8">
+            <div class="row">
+              
+              <div class="">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">CANDIDATE</h5>
+
+                    <!-- Bar Chart -->
+                    <canvas id="barChart" style="max-height: 400px;"></canvas>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const labels = {!! json_encode($candidateGrouping->keys()) !!};  // nama rank
+                            const dataValues = {!! json_encode($candidateGrouping->values()) !!}; // jumlah per rank
+
+                            new Chart(document.querySelector('#barChart'), {
+                                type: 'bar',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Total Crew per Rank',
+                                        data: dataValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                        borderColor: 'rgb(54, 162, 235)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                precision: 0 // biar gak ada koma
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                        </script>
+                    <!-- End Bar CHart -->
+
+                    </div>
+                </div>
+                </div>
+            </div>
+          </div>
+          <!-- End Left side columns -->
+
+          <!-- Right side columns -->
+          <div class="col-lg-4">
+            <!-- Revenue Card -->
+              <div class="">
+                <div class="card info-card revenue-card">
+                  <div class="card-body">
+                    <h5 class="card-title">ACTIVE CREW</h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{ $activeCrew }} Active Crew</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Revenue Card -->
+            <!-- Website Traffic -->    
+            <div class="card">
+              <div class="card-body pb-0">
+                <h5 class="card-title">SUMMARY</h5>
+
+                <div id="trafficChart" style="min-height: 400px" class="echart"></div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                    const chartData = @json(
+                        $summaryGrouping->map(function ($count, $key) {
+                            return ['value' => $count, 'name' => $key];
+                        })->values()
+                    );
+
+                    echarts.init(document.querySelector("#trafficChart")).setOption({
+                        tooltip: {
+                        trigger: "item",
+                        },
+                        legend: {
+                        top: "5%",
+                        left: "center",
+                        },
+                        series: [
+                        {
+                            name: "Standby On",
+                            type: "pie",
+                            radius: ["40%", "70%"],
+                            avoidLabelOverlap: false,
+                            label: {
+                            show: false,
+                            position: "center",
+                            },
+                            emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: "18",
+                                fontWeight: "bold",
+                            },
+                            },
+                            labelLine: {
+                            show: false,
+                            },
+                            data: chartData
+                        },
+                        ],
+                    });
+                    });
+                </script>
+              </div>
+            </div>
+            <!-- End Website Traffic -->
+          </div>
+          <!-- End Right side columns -->
+        </div>
+      </section>
     </main>
 @endsection

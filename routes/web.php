@@ -1,15 +1,22 @@
 <?php
 
 use App\Models\Chat;
+use App\Models\CrewRotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LowonganKerja;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrewController;
+use App\Http\Controllers\ShipController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\CrewingController;
+use App\Http\Controllers\CrewListController;
+use App\Http\Controllers\DataCrewController;
+use App\Http\Controllers\SignOnOffController;
 use App\Http\Controllers\DataLamaranController;
 use App\Http\Controllers\LamaranSayaController;
+use App\Http\Controllers\CrewRotationController;
 
 Route::get('/', function () {
     return view('welcome', [
@@ -27,13 +34,15 @@ Route::post('registercrewing', [AuthController::class, 'registerCrewing'])->name
 Route::post('registercrew', [AuthController::class, 'registerCrew'])->name('registerCrew');
 Route::get('profile', [AuthController::class, 'profile'])->name('profile');
 Route::post('profile', [AuthController::class, 'updateProfile'])->name('update.profile');
+Route::post('change-status', [AuthController::class, 'changeStatus'])->name('changeStatus');
+Route::get('/export-crew', [ExportController::class, 'exportCrew'])->name('export.crew');
+Route::get('/export-crewing', [ExportController::class, 'exportCrewing'])->name('export.crewing');
+Route::get('/export-ship', [ExportController::class, 'exportShip'])->name('export.ship');
+Route::get('/export-crew-list', [ExportController::class, 'exportCrewList'])->name('export.crew_list');
+Route::get('/export-screening', [ExportController::class, 'exportScreening'])->name('export.screening');
+
 
 Route::group(['middleware' => 'auth'], function () {
-    
-    Route::get('lowongan_kerja/detail/{slug}', [LowonganKerja::class, 'slug'])->name('lowongan_kerja.slug');
-    Route::get('lowongan_kerja/pertanyaan/{slug}', [LowonganKerja::class, 'pertanyaan'])->name('lowongan_kerja.pertanyaan');
-    Route::post('lowongan_kerja/lamar/{id}', [LowonganKerja::class, 'lamar'])->name('lowongan_kerja.lamar');
-    Route::get('lamaran_saya', [LamaranSayaController::class, 'index'])->name('lamaran_saya.index');
     Route::post('kirim_pesan', function(Request $request) {
         $userLamaranId = $request->user_lamaran_id;
         $chat = Chat::where('user_lamaran_id', $userLamaranId)->first();
@@ -59,10 +68,26 @@ Route::group(['middleware' => 'auth'], function () {
         }
     })->name('kirim_pesan');
     
+    Route::get('lowongan_kerja/detail/{slug}', [LowonganKerja::class, 'slug'])->name('lowongan_kerja.slug');
+    Route::get('lowongan_kerja/pertanyaan/{slug}', [LowonganKerja::class, 'pertanyaan'])->name('lowongan_kerja.pertanyaan');
+    Route::post('lowongan_kerja/lamar/{id}', [LowonganKerja::class, 'lamar'])->name('lowongan_kerja.lamar');
+    Route::get('lamaran_saya', [LamaranSayaController::class, 'index'])->name('lamaran_saya.index');
+    Route::get('crewing/data_crew', [CrewingController::class, 'data_crew'])->name('data_crew');
+    Route::get('crewing/my_crew', [CrewingController::class, 'my_crew'])->name('my_crew');
+    Route::get('crewing/data_crew/delete/{id}', [CrewingController::class, 'data_crew_delete'])->name('data_crew.destroy');
+    Route::get('crewing/data_crew/detail/{id}', [CrewingController::class, 'data_crew_detail'])->name('data_crew.detail');
 
+    Route::get('crewing/message', [CrewingController::class, 'message'])->name('message');
+    Route::post('crewing/message', [CrewingController::class, 'messageStore'])->name('message.store');
+    Route::post('crewing/broadcast', [CrewingController::class, 'messageBroadcast'])->name('message.broadcast');
+    
     Route::resource('lowongan', LowonganKerja::class);
     Route::get('lamaran', [DataLamaranController::class, 'index'])->name('lamaran.index');
     Route::post('lamaran/update_status_lamaran/{id}', [DataLamaranController::class, 'update_status'])->name('lamaran.update_status');
     Route::resource('crew', CrewController::class);
     Route::resource('crewing', CrewingController::class);
+    Route::resource('ship', ShipController::class);
+    Route::resource('crew_list', CrewListController::class);
+    Route::resource('signonoff', SignOnOffController::class);
+    Route::resource('crew_rotation', CrewRotationController::class);
 });

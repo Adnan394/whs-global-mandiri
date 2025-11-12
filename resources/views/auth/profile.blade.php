@@ -98,14 +98,14 @@
                                 <option value="Duda">Duda</option>
                             </select>
                         </div>
-                        <div class="col mb-3">
+                        {{-- <div class="col mb-3">
                             <label for="standby_on" class="form-label">Stanby On? <small class="text-danger">*</small></label>
                             <select name="standby_on" id="standby_on" class="form-select">
                                 <option value="{{ $crew->standby_on ?? '' }}" selected>{{ $crew->standby_on ?? '-- Select Standby --' }}</option>
-                                <option value="Standby">Standby</option>
+                                <option value="Offboard">Offboard</option>
                                 <option value="Onboard">Onboard</option>
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="row w-100">
                         <div class="col mb-3">

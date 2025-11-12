@@ -186,9 +186,6 @@ class AuthController extends Controller
         if(!empty($request->marital_status)) {
             $crew['marital_status'] = $request->marital_status;
         }
-        if(!empty($request->standby_on)) {
-            $crew['standby_on'] = $request->standby_on;
-        }
 
         if($request->hasFile('image')) {
             $image = $request->file('image');
@@ -237,7 +234,7 @@ class AuthController extends Controller
             $filename = $additional_document->getClientOriginalName() . '.' . $additional_document->getClientOriginalExtension();
             $path = public_path('userdata/additional_document/');
             $additional_document->move($path, $filename);
-            $crew['additional_document'] = $filename;
+            $crew['additional_documents'] = $filename;
         }
 
         try {
@@ -249,6 +246,13 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+    public function changeStatus(Request $request) {
+        crew::where('user_id', $request->id)->update([
+            'standby_on' => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Crew Update Successfully!');
     }
 
     public function logout() {

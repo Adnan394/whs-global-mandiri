@@ -131,7 +131,7 @@
                     <input type="password" class="form-control" name="password" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Upload ID Card (KTP)</label>
+                    <label class="form-label">Upload Your ID</label>
                     <input type="file" class="form-control" name="card_id" accept="image/*" required>
                 </div>
                 <div class="mb-3">

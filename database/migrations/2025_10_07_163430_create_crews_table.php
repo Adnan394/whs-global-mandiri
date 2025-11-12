@@ -24,7 +24,10 @@ return new class extends Migration
             $table->string('marital_status')->nullable();
             $table->string('address')->nullable();
             $table->string('current_address')->nullable();
-            $table->string('standby_on')->nullable();
+            $table->string('standby_on')->default('Offboard');
+            $table->integer('is_active')->default('0');
+            $table->string('start_date')->nullable();
+            $table->string('end_date')->nullable();
             $table->string('ktp')->nullable();
             $table->string('certificate_of_competency')->nullable();
             $table->string('certificate_of_proficiency')->nullable();

@@ -34,11 +34,7 @@
                                         <br>
                                         @if($item->status == 0) 
                                             <small class="text-muted">
-                                                <i class="bi bi-send me-2"></i>Lamaran Dikirim
-                                            </small>
-                                        @elseif($item->status == 1)
-                                            <small class="text-primary">
-                                                <i class="bi bi-envelope-check me-2"></i>Terhubung HRD
+                                                <i class="bi bi-send me-2"></i>Process
                                             </small>
                                         @elseif($item->status == 2)
                                             <small class="text-primary">
@@ -46,11 +42,11 @@
                                             </small>
                                         @elseif($item->status == 3)
                                             <small class="text-success">
-                                                <i class="bi bi-person-check me-2"></i>Diterima
+                                                <i class="bi bi-person-check me-2"></i>Accepted
                                             </small>
                                         @elseif($item->status == 4)
                                             <small class="text-danger">
-                                                <i class="bi bi-ban me-2"></i>Ditolak
+                                                <i class="bi bi-ban me-2"></i>Decline
                                             </small>
                                         @endif
                                     </div>
@@ -79,11 +75,7 @@
                                             <h5>{{ $lowongan->title }}</h5>
                                             @if($item->status == 0) 
                                                 <small class="text-muted">
-                                                    <i class="bi bi-send me-2"></i>Lamaran Dikirim
-                                                </small>
-                                            @elseif($item->status == 1)
-                                                <small class="text-primary">
-                                                    <i class="bi bi-envelope-check me-2"></i>Terhubung HRD
+                                                    <i class="bi bi-send me-2"></i>Process
                                                 </small>
                                             @elseif($item->status == 2)
                                                 <small class="text-primary">
@@ -91,11 +83,11 @@
                                                 </small>
                                             @elseif($item->status == 3)
                                                 <small class="text-success">
-                                                    <i class="bi bi-person-check me-2"></i>Diterima
+                                                    <i class="bi bi-person-check me-2"></i>Accepted
                                                 </small>
                                             @elseif($item->status == 4)
                                                 <small class="text-danger">
-                                                    <i class="bi bi-ban me-2"></i>Ditolak
+                                                    <i class="bi bi-ban me-2"></i>Decline
                                                 </small>
                                             @endif
                                         </div>

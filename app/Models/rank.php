@@ -14,4 +14,9 @@ class rank extends Model
     {
         return $this->hasMany(LowonganKerja::class);
     }
+
+    public function crew()
+    {
+        return $this->hasMany(crew::class);
+    }
 }
