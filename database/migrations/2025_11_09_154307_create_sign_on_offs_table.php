@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('crew_id')->constrained('crews');
             $table->string('file')->nullable();
+            $table->string('type')->nullable();
+            $table->string('status')->nullable();
             $table->foreignId('rank_id')->constrained('ranks');
             $table->timestamps();
         });

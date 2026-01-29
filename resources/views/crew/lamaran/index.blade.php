@@ -4,7 +4,7 @@
     <main id="main" style="margin-top: 150px" class="mb-5">
         <div class="container">
             <div class="d-flex justify-content-center">
-                <h2 class="text-center mb-5 title-underline">Lamaran Saya</h2>
+                <h2 class="text-center mb-5 title-underline">My Applications</h2>
             </div>
 
             <div class="row">

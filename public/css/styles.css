@@ -82,3 +82,9 @@ body {
     background-color: #007bff; /* warna biru Bootstrap */
     border-radius: 10px; /* rounded edge */
 }
+
+.swal-small {
+    width: 100px !important;   /* sesuaikan */
+    padding: 15px !important;
+}
+

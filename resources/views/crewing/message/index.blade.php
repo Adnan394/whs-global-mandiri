@@ -102,6 +102,9 @@
             @csrf
             <div id="broadcast-step-1">
                 <h6>Select User</h6>
+                
+                <input type="text" onInput="searchUser(event)" class="form-control mb-2" placeholder="Search user...">
+                
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <button type="button" class="btn btn-outline-primary btn-sm" onclick="selectAll()">Select All</button>
                 </div>
@@ -215,4 +218,16 @@ function backToUser() {
 function selectAll() {
     document.querySelectorAll('#userList input[type=checkbox]').forEach(cb => cb.checked = true);
 }
+
+
+function searchUser(e) {
+    let keyword = e.target.value.toLowerCase();
+    let list = document.querySelectorAll('#userList li');
+
+    list.forEach(function (item) {
+        let text = (item.textContent || "").toLowerCase();
+        item.style.display = text.includes(keyword) ? '' : 'none';
+    });
+}
+
 </script>

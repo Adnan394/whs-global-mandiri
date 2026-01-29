@@ -28,11 +28,11 @@ class SignOnOffController extends Controller
     public function store(Request $request) {
         $crewExist = crew::where('id', $request->crew_id)->first();
         if(empty($crewExist)) {
-            return redirect()->back()->with('error', 'Crew Tidak Ditemukan!');
+            return redirect()->back()->with('error', 'Crew Not Found!');
         }
         $rankExist = rank::where('id', $request->rank_id)->first();
         if(empty($rankExist)) {
-            return redirect()->back()->with('error', 'Rank Tidak Ditemukan!');
+            return redirect()->back()->with('error', 'Rank Not Found!');
         }
 
         $filename = '';
@@ -40,11 +40,28 @@ class SignOnOffController extends Controller
             $file = $request->file('file');
             $filename = $file->getClientOriginalName();
             if($request->name == 'Sign On') {
-                $path = public_path('userdata/signon/');
-            }else {
-                $path = public_path('userdata/promot/');
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/signon/';
+            }
+            else if($request->name == 'Sign Off') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/signoff/';
+            }
+            else if($request->name == 'Promotion') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/promotion/';
+            }
+            else if($request->name == 'Leave') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/leave/';
+            }
+            else if($request->name == 'Change Ship') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/leave/';
+            }
+            else {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/assignment/';
+            }
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
             }
             $file->move($path, $filename);
+
         }
 
         SignOnOff::create([
@@ -60,7 +77,7 @@ class SignOnOffController extends Controller
             ]);
         }
 
-        return redirect('/signonoff')->with('success', 'Data Berhasil Ditambahkan!');
+        return redirect('/signonoff')->with('success', 'Data Successfully Added!');
     }
 
     public function edit($id) {
@@ -75,11 +92,11 @@ class SignOnOffController extends Controller
     public function update(Request $request, $id) {
         $crewExist = crew::where('id', $request->crew_id)->first();
         if(empty($crewExist)) {
-            return redirect()->back()->with('error', 'Crew Tidak Ditemukan!');
+            return redirect()->back()->with('error', 'Crew Not Found!');
         }
         $rankExist = rank::where('id', $request->rank_id)->first();
         if(empty($rankExist)) {
-            return redirect()->back()->with('error', 'Rank Tidak Ditemukan!');
+            return redirect()->back()->with('error', 'Rank Not Found!');
         }
 
         $filename = '';
@@ -87,9 +104,25 @@ class SignOnOffController extends Controller
             $file = $request->file('file');
             $filename = $file->getClientOriginalName();
             if($request->name == 'Sign On') {
-                $path = public_path('userdata/signon/');
-            }else {
-                $path = public_path('userdata/promot/');
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/signon/';
+            }
+            else if($request->name == 'Sign Off') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/signoff/';
+            }
+            else if($request->name == 'Promotion') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/promotion/';
+            }
+            else if($request->name == 'Leave') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/leave/';
+            }
+            else if($request->name == 'Change Ship') {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/leave/';
+            }
+            else {
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/assignment/';
+            }
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
             }
             $file->move($path, $filename);
         }
@@ -109,6 +142,9 @@ class SignOnOffController extends Controller
         if(isset($request->name)) {
             $payload['name'] = $request->name;
         }
+        if(isset($request->status)) {
+            $payload['status'] = $request->status;
+        }
         $query->update($payload);
         
         if($request->name == 'Promot Rank') {
@@ -117,11 +153,11 @@ class SignOnOffController extends Controller
             ]);
         }
 
-        return redirect('/signonoff')->with('success', 'Data Berhasil Diubah!');
+        return redirect('/signonoff')->with('success', 'Data Successfully Updated!');
     }
 
     public function destroy($id) {
         SignOnOff::where('id', $id)->delete();
-        return redirect('/signonoff')->with('success', 'Data Berhasil Dihapus!');
+        return redirect('/signonoff')->with('success', 'Data Successfully Deleted!');
     }
 }

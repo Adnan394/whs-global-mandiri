@@ -17,7 +17,10 @@
                                     <select name="crew_id" id="crewSelect" class="form-select" required>
                                         <option value=""> -- Select Crew -- </option>
                                         @foreach ($crews as $item)
-                                            <option value="{{ $item->id }}" data-ship="{{ $item->ship_id }}">
+                                        @php
+                                            $shipId = \App\Models\CrewList::where('crew_id', $item->crew_id)->first()->ship_id ?? null;
+                                        @endphp
+                                            <option value="{{ $item->crew_id }}" data-ship="{{ $shipId }}">
                                                 {{ $item->fullname }}
                                             </option>
                                         @endforeach
@@ -75,22 +78,22 @@
 @endsection
 
 <script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/classic/ckeditor.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const crewSelect = document.getElementById('crewSelect');
     const shipSelect = document.getElementById('shipSelect');
 
-    crewSelect.addEventListener('change', function() {
+    function updateShip() {
         const selectedOption = crewSelect.options[crewSelect.selectedIndex];
         const shipId = selectedOption.getAttribute('data-ship');
 
-        if (shipId) {
-            // otomatis pilih ship yang sesuai
-            shipSelect.value = shipId;
-        } else {
-            shipSelect.value = '';
-        }
-    });
+        shipSelect.value = shipId ? shipId : '';
+    }
+
+    crewSelect.addEventListener('change', updateShip);
+
+    // 🔥 panggil sekali pada initial load
+    updateShip();
 });
 </script>
+

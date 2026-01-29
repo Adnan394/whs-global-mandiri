@@ -1,11 +1,33 @@
 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center pt-3 ">
-            <h5 class="card-title">Data Lamaran</h5>
+            <h5 class="card-title">Data Applications</h5>
             <div class="d-flex align-items-center gap-2">
-                <div class="">
-                    <input type="month" wire:model.live="month" class="form-control" name="month" id="">
+                <!--<div class="">-->
+                <!--    <input type="month" wire:model.live="month" class="form-control" name="month" id="">-->
+                <!--</div>-->
+                <div class="d-flex gap-2">
+                    {{-- Dropdown Tahun --}}
+                    <div class="">
+                        <select wire:model.live="year" id="year" class="form-control">
+                            <option value="">-- Year --</option>
+                            @foreach($years as $y)
+                                <option value="{{ $y }}">{{ $y }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                
+                    {{-- Dropdown Bulan (aktif hanya jika Tahun terpilih) --}}
+                    <div class="">
+                        <select wire:model.live="month" id="month" class="form-control" {{ empty($year) ? 'disabled' : '' }}>
+                            <option value="">-- Month --</option>
+                            @foreach($months as $key => $val)
+                                <option value="{{ $key }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
+
                 <div class="">
                     <a href="{{ route('export.screening', ['month' => $month]) }}" class="btn btn-success px-4 py-2 d-inline-block">
                         Export Excel
@@ -18,12 +40,12 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Lowongan Kerja</th>
-                <th scope="col">Pertanyaan</th>
+                <th scope="col">Name</th>
+                <th scope="col">Job Vacancy</th>
+                <th scope="col">Questions</th>
                 <th scope="col">Status</th>
                 <th scope="col">Interview</th>
-                <th scope="col">Aksi</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -39,7 +61,7 @@
 
                             @foreach ($userPertanyaan as $pertanyaan)
                                 <p class="mb-0">{{ $loop->iteration }}. {{ \App\Models\Pertanyaan::where('id', $pertanyaan->pertanyaan_id)->first()->pertanyaan }}</p>
-                                <a class="mb-2 ms-3 text-primary" data-bs-toggle="collapse" href="#collapseExample{{ $pertanyaan->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $pertanyaan->id }}">Jawaban</a>
+                                <a class="mb-2 ms-3 text-primary" data-bs-toggle="collapse" href="#collapseExample{{ $pertanyaan->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $pertanyaan->id }}">Answers</a>
                                 <div class="collapse" id="collapseExample{{ $pertanyaan->id }}">
                                     <div class="card p-2 ms-4">
                                         <small class="">{{ $pertanyaan->jawaban }}</small>
@@ -95,8 +117,7 @@
                                             <div class="mb-3">
                                                 <label for="status" class="form-label">Status :</label>
                                                 <select name="status" id="status{{ $item->id }}" class="form-select status-select" data-id="{{ $item->id }}">
-                                                    <option value="">-- Pilih Status --</option>
-                                                    <option value="0">Process</option>
+                                                    <option value="">-- Select Status --</option>
                                                     <option value="2">Interview</option>
                                                     <option value="3">Accepted</option>
                                                     <option value="4">Decline</option>
@@ -105,7 +126,7 @@
 
                                             {{-- Pesan --}}
                                             <div class="mb-3 d-none" id="pesanWrap{{ $item->id }}">
-                                                <label class="form-label">Pesan</label>
+                                                <label class="form-label">Message</label>
                                                 <textarea name="pesan" class="form-control" rows="5" placeholder="type somethings..."></textarea>
                                             </div>
 
@@ -124,7 +145,7 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                         <button type="submit" class="btn btn-primary">Change</button>
                                     </div>
                                 </div>
@@ -142,8 +163,8 @@
                                     <div class="modal-header align-items-start">
                                         {{-- <h1 class="modal-title fs-5 fw-bold" id="pesanLabel">Pesan</h1> --}}
                                         <div class="row">
-                                            <p class="mb-2">Nama : {{ \App\Models\User::where('id', $item->user_id)->first()->name }}</p>
-                                            <p>Lowongan Kerja : {{ \App\Models\LowonganKerja::where('id', $item->lowongan_kerja_id)->first()->title }}</p>
+                                            <p class="mb-2">Name : {{ \App\Models\User::where('id', $item->user_id)->first()->name }}</p>
+                                            <p>Job Vacancy : {{ \App\Models\LowonganKerja::where('id', $item->lowongan_kerja_id)->first()->title }}</p>
                                         </div>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
@@ -181,8 +202,8 @@
 
                                     <div class="d-flex gap-2 p-3">
                                         <input type="hidden" name="user_lamaran_id" value="{{ $item->id }}">
-                                        <input type="text" name="message" class="form-control" placeholder="Kirim Pesan">
-                                        <button type="submit" class="btn btn-primary">Kirim</button>
+                                        <input type="text" name="message" class="form-control" placeholder="Send Message">
+                                        <button type="submit" class="btn btn-primary">Send</button>
                                     </div>
                                 </div>
                             </div>

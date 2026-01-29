@@ -13,9 +13,12 @@ class CrewTable extends Component
 
     public function render()
     {
-        $ranks = rank::orderBy('name')->get();
+        $ranks = rank::where('type', 1)->orderBy('name')->get();
 
-        $query = crew::where('is_active', 1);
+        // $query = crew::where('is_active', 1);
+        $query = crew::leftJoin('sign_on_offs', 'sign_on_offs.crew_id', '=', 'crews.id')
+                ->where('sign_on_offs.name', 'Sign On')
+                ->where('status', 2);
 
         if ($this->rank_id != '') {
             $query->where('rank_id', $this->rank_id);

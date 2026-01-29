@@ -19,9 +19,10 @@ class CrewRotationController extends Controller
     }
 
     public function create() {
+        $crew = crew::join('crew_lists', 'crews.id', 'crew_lists.crew_id')->where('crew_lists.status', 2)->get();
         return view('crewing.crew_rotation.create', [
             'active' => 'crewrotation',
-            'crews' => crew::where('is_active', 1)->get(),
+            'crews' => $crew,
             'ships' => Ship::all()
         ]);
     }
@@ -33,7 +34,10 @@ class CrewRotationController extends Controller
         if($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = $file->getClientOriginalName();
-            $path = public_path('userdata/user_rotation/');
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/user_rotation/';
+            if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
             $file->move($path, $filename);
         }
 
@@ -66,6 +70,7 @@ class CrewRotationController extends Controller
             'end_date' => $request->end_date,
             'name' => $request->name,
             'file' => $filename,
+            'status' => 0,
             'duration' => date_diff(date_create_from_format('Y-m-d', $request->end_date), date_create_from_format('Y-m-d', $request->start_date))->format('%a Hari %h Jam %i Menit')
         ]);
 
@@ -73,10 +78,11 @@ class CrewRotationController extends Controller
     }
 
     public function edit($id) {
+        $crew = crew::join('crew_lists', 'crews.id', 'crew_lists.crew_id')->where('crew_lists.status', 2)->get();
         return view('crewing.crew_rotation.edit', [
             'active' => 'crewrotation',
             'data' => CrewRotation::where('id', $id)->first(),
-            'crews' => crew::where('is_active', 1)->get(),
+            'crews' => $crew,
             'ships' => Ship::all()
         ]);
     }
@@ -88,7 +94,10 @@ class CrewRotationController extends Controller
         if($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = $file->getClientOriginalName();
-            $path = public_path('userdata/user_rotation/');
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/user_rotation/';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
             $file->move($path, $filename);
         }
 
@@ -132,6 +141,9 @@ class CrewRotationController extends Controller
         }
         if(isset($request->file)) {
             $payload['file'] = $filename;
+        }
+        if(isset($request->status)) {
+            $payload['status'] = $request->status;
         }
         
         if(isset($request->start_date) && isset($request->end_date)) {

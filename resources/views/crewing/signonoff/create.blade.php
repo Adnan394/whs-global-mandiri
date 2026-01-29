@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body p-5">
-                        <h5 class="card-title">Add Sign On / Off</h5>
+                        <h5 class="card-title">Add Assignment</h5>
 
                         <form action="{{ route('signonoff.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -31,7 +31,10 @@
                                     <select name="name" id="" class="form-select" required>
                                         <option value="">-- Select Title -- </option>
                                         <option value="Sign On">Sign On</option>
-                                        <option value="Promot Rank">Promot Rank</option>
+                                        <option value="Sign Off">Sign Off</option>
+                                        <option value="Promotion">Promotion</option>
+                                        <option value="Leave">Leave</option>
+                                        <option value="Change Ship">Change Ship</option>
                                     </select>
                                 </div>
 
@@ -53,7 +56,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mt-4 w-100 py-2 m-0">Tambah Kapal</button>
+                            <button type="submit" class="btn btn-primary mt-4 w-100 py-2 m-0">Add Assignment</button>
                         </form>
                     </div>
                 </div>

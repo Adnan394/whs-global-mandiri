@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\rank;
 use App\Models\Pertanyaan;
+use App\Models\crew;
 use Illuminate\Http\Request;
 use App\Models\EmploymentType;
 use App\Models\ExperienceLevel;
@@ -28,7 +29,7 @@ class LowonganKerja extends Controller
     public function create()
     {
         return view('crewing.lowongan_kerja.create', [
-            'ranks' => rank::all(),
+            'ranks' => rank::where('type', 1)->get(),
             'employment_types' => EmploymentType::all(),
             'experience_levels' => ExperienceLevel::all(),
             'active' => 'lowongan_kerja'
@@ -36,21 +37,16 @@ class LowonganKerja extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'employment_type' => 'required',
-            'experience_level' => 'required',
             'rank_id' => 'required',
-            'requirement' => 'required',
-            'education' => 'required',
             'sallary' => 'required',
+            'sallary2' => 'required',
         ]);
 
         if(!$request->hasFile('image')) {
-            dd($request->all());
-            throw new \Exception('No image file uploaded!');
+            return redirect()->route('lowongan.index')->with('error', 'No image file uploaded!');
         }
 
         try {
@@ -59,12 +55,9 @@ class LowonganKerja extends Controller
             $lowongan = [
                 'title' => $request->title,
                 'description' => $request->description,
-                'employment_type_id' => $request->employment_type,
-                'experience_level_id' => $request->experience_level,
                 'rank_id' => $request->rank_id,
-                'requirements' => $request->requirement,
-                'education' => $request->education,
                 'sallary' => $request->sallary,
+                'sallary2' => $request->sallary2,
                 'status' => 1,
                 'slug' => str_replace(' ', '-', strtolower($request->title)),
                 'user_id' => Auth::user()->id
@@ -74,7 +67,7 @@ class LowonganKerja extends Controller
                 $image = $request->file('image');
                 $filename = time() . '_' . $image->getClientOriginalName();
 
-                $path = public_path('images/lowongan_kerja');
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/images/lowongan_kerja';
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
@@ -85,18 +78,20 @@ class LowonganKerja extends Controller
 
             $data = Lowongan::create($lowongan);
             
-            foreach ($request->pertanyaan as $key => $value) {
-                Pertanyaan::create([
-                    'lowongan_kerja_id' => $data->id,
-                    'pertanyaan' => $value
-                ]);
+            if($request->pertanyaan) {
+                foreach ($request->pertanyaan as $key => $value) {
+                    Pertanyaan::create([
+                        'lowongan_kerja_id' => $data->id,
+                        'pertanyaan' => $value
+                    ]);
+                }
             }
             DB::commit();
 
-            return redirect()->route('lowongan.index')->with('success', 'Lowongan Kerja berhasil ditambahkan!');
+            return redirect()->route('lowongan.index')->with('success', 'Job Vacancy Successfully Added!');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // return redirect()->route('lowongan.index')->with('error', 'Lowongan Kerja gagal ditambahkan!');
+            return redirect()->route('lowongan.index')->with('error', 'Lowongan Kerja gagal ditambahkan!');
             throw $th;
         }
     }
@@ -108,9 +103,7 @@ class LowonganKerja extends Controller
     {
         return view('crewing.lowongan_kerja.edit', [
             'lowongan' => Lowongan::find($id),
-            'ranks' => rank::all(),
-            'employment_types' => EmploymentType::all(),
-            'experience_levels' => ExperienceLevel::all(),
+            'ranks' => rank::where('type', 1)->get(),
             'active' => 'lowongan_kerja',
             'lowongan' => Lowongan::find($id),
             'pertanyaan' => Pertanyaan::where('lowongan_kerja_id', $id)->get()
@@ -124,7 +117,8 @@ class LowonganKerja extends Controller
             $image = $request->file('image');
             $filename = time() . '_' . $image->getClientOriginalName();
 
-            $path = public_path('images/lowongan_kerja');
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/images/lowongan_kerja';
+            // $path = public_path('images/lowongan_kerja');
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
@@ -139,23 +133,14 @@ class LowonganKerja extends Controller
         if(!empty($request->description)) {
             $data['description'] = $request->description;
         }
-        if(!empty($request->employment_type)) {
-            $data['employment_type_id'] = $request->employment_type;
-        }
-        if(!empty($request->experience_level)) {
-            $data['experience_level_id'] = $request->experience_level;
-        }
         if(!empty($request->rank_id)) {
             $data['rank_id'] = $request->rank_id;
         }
-        if(!empty($request->requirement)) {
-            $data['requirements'] = $request->requirement;
-        }
-        if(!empty($request->education)) {
-            $data['education'] = $request->education;
-        }
         if(!empty($request->sallary)) {
             $data['sallary'] = $request->sallary;
+        }
+        if(!empty($request->sallary2)) {
+            $data['sallary2'] = $request->sallary2;
         }
         if(!empty($request->status)) {
             $data['status'] = $request->status;
@@ -198,7 +183,7 @@ class LowonganKerja extends Controller
             }
             
             DB::commit();
-            return redirect()->route('lowongan.index')->with('success', 'Lowongan Kerja berhasil diupdate!');
+            return redirect()->route('lowongan.index')->with('success', 'Job Vacancy Successfully Updated!');
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
@@ -210,9 +195,9 @@ class LowonganKerja extends Controller
         try {
             Pertanyaan::where('lowongan_kerja_id', $id)->delete();
             Lowongan::find($id)->delete();
-            return redirect()->route('lowongan.index')->with('success', 'Lowongan Kerja berhasil dihapus!');
+            return redirect()->route('lowongan.index')->with('success', 'Job Vacancy Successfully Deleted!');
         } catch (\Throwable $th) {
-            return redirect()->route('lowongan.index')->with('success', 'Lowongan Kerja berhasil dihapus!');
+            return redirect()->route('lowongan.index')->with('error', 'Job Vacancy Fail to Deleted');
         }
     }
 
@@ -227,6 +212,15 @@ class LowonganKerja extends Controller
     }
 
     public function pertanyaan(string $slug) {
+        if(!Auth::user()->image) {
+            return redirect('/profile')->with('error', 'Please Complete Your Profile!');
+        }
+        $crew = User::with('crew')->where('id', Auth::user()->id)->first();
+        if(!$crew->crew->birth_place || !$crew->crew->birth_date || !$crew->crew->gender || !$crew->crew->religion || !$crew->crew->marital_status || !$crew->crew->address || !$crew->crew->current_address || !$crew->crew->ktp || !$crew->crew->certificate_of_competency || !$crew->crew->certificate_of_proficiency || !$crew->crew->seaferer_medical_certificate || !$crew->crew->curriculum_vitae) 
+        {
+            return redirect('/profile')->with('error', 'Please Complete Your Profile!');
+        }
+        
         $lowongan = Lowongan::where('slug', $slug)->first();
         return view('crew.lowongan.pertanyaan', [
             'lowongan' => $lowongan,
@@ -251,7 +245,7 @@ class LowonganKerja extends Controller
                 ]);
 
                 DB::commit();
-                return redirect('/')->with('success', 'Lamaran Berhasil di Kirim!');
+                return redirect('/')->with('success', 'Application Successfully Applied!');
             }else {
                 UserLamaran::create([
                     'user_id' => Auth::user()->id,
@@ -260,7 +254,7 @@ class LowonganKerja extends Controller
                 ]);
 
                 DB::commit();
-                return redirect('/')->with('success', 'Lamaran Berhasil di Kirim!');
+                return redirect('/')->with('success', 'Application Successfully Applied!');
             }
         } catch (\Throwable $th) {
             DB::rollBack();

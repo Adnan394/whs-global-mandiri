@@ -30,11 +30,17 @@ class CrewListTable extends Component
         }
 
         $data = $query->get();
+        
+        // $query = crew::where('is_active', 1);
+        $query2 = crew::leftJoin('sign_on_offs', 'sign_on_offs.crew_id', '=', 'crews.id')
+                ->where('sign_on_offs.name', 'Sign On')
+                ->where('status', 2);
+        $crew = $query2->get();
 
         return view('livewire.crew-list-table', [
             'data' => $data,
             'ship' => Ship::all(),
-            'crew' => crew::where('is_active', 1)->get(),
+            'crew' => $crew,
             'ranks' => $ranks
         ]);
     }

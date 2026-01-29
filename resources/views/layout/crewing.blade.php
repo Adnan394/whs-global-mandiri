@@ -36,8 +36,8 @@
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
       <div class="d-flex align-items-center justify-content-between">
-        <a href="/crew" class="logo d-flex align-items-center">
-          <img src="{{ asset('image/logo-wgm.jpg') }}" />
+        <a href="/crewing" class="logo d-flex align-items-center">
+          <img src="{{ asset('image/siraka-logo.png') }}" />
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
       </div>
@@ -74,19 +74,25 @@
               </li>
 
               <li>
-                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <a class="dropdown-item d-flex align-items-center" href="{{route('crewing.profile')}}">
                   <i class="bi bi-person"></i>
                   <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="{{route('change_password')}}">
+                  <i class="bi bi-gear"></i>
+                  <span>Change Password</span>
                 </a>
               </li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
               <li>
-                {{-- <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
                   <i class="bi bi-box-arrow-right"></i>
                   <span>Sign Out</span>
-                </a> --}}
+                </a>
               </li>
             </ul>
             <!-- End Profile Dropdown Items -->
@@ -100,7 +106,6 @@
 <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
       <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-heading">Menu Crewing</li>
         <li class="nav-item">
           <a class="nav-link {{ $active == 'dashboard' ? '' : 'collapsed' }}" href="/crewing">
             <i class="bi bi-grid"></i>
@@ -113,7 +118,7 @@
             data-bs-toggle="collapse" 
             href="#">
             <i class="bi bi-journal-text"></i>
-            <span>Data Crew</span>
+            <span>Crew Data</span>
             <i class="bi bi-chevron-down ms-auto"></i>
           </a>
 
@@ -135,7 +140,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ in_array($active, ['lowongan_kerja', 'lamaran']) ? '' : 'collapsed' }}" 
+          <a class="nav-link {{ in_array($active, ['lowongan_kerja', 'lamaran', 'crew_list', 'signonoff']) ? '' : 'collapsed' }}" 
             data-bs-target="#crew_management" 
             data-bs-toggle="collapse" 
             href="#">
@@ -145,7 +150,7 @@
           </a>
 
           <ul id="crew_management" 
-              class="nav-content collapse {{ in_array($active, ['lowongan_kerja', 'lamaran', 'crewrotation', 'signonoff']) ? 'show' : '' }}" 
+              class="nav-content collapse {{ in_array($active, ['lowongan_kerja', 'lamaran', 'crewrotation', 'signonoff', 'crew_list']) ? 'show' : '' }}" 
               data-bs-parent="#sidebar-nav">
 
             <li class="nav-item">
@@ -159,22 +164,28 @@
                 <span>Screening</span>
               </a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link {{ $active == 'signonoff' ? '' : 'collapsed' }}" href="{{ route('signonoff.index') }}">
+                <span>Assignment</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link {{ $active == 'crew_list' ? '' : 'collapsed' }}" href="{{ route('crew_list.index') }}">
+                <span>Crew List</span>
+              </a>
+            </li>
             
             <li class="nav-item">
               <a class="nav-link {{ $active == 'crewrotation' ? '' : 'collapsed' }}" href="{{ route('crew_rotation.index') }}">
                 <span>Crew Rotation</span>
               </a>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link {{ $active == 'signonoff' ? '' : 'collapsed' }}" href="{{ route('signonoff.index') }}">
-                <span>Sign ON/OFF</span>
-              </a>
-            </li>
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ in_array($active, ['ship', 'crew_list']) ? '' : 'collapsed' }}" 
+          <a class="nav-link {{ in_array($active, ['ship']) ? '' : 'collapsed' }}" 
             data-bs-target="#ship_management" 
             data-bs-toggle="collapse" 
             href="#">
@@ -184,18 +195,12 @@
           </a>
 
           <ul id="ship_management" 
-              class="nav-content collapse {{ in_array($active, ['ship', 'crew_list']) ? 'show' : '' }}" 
+              class="nav-content collapse {{ in_array($active, ['ship']) ? 'show' : '' }}" 
               data-bs-parent="#sidebar-nav">
 
             <li class="nav-item">
               <a class="nav-link {{ $active == 'ship' ? '' : 'collapsed' }}" href="{{ route('ship.index') }}">
                 <span>Ship Board</span>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link {{ $active == 'crew_list' ? '' : 'collapsed' }}" href="{{ route('crew_list.index') }}">
-                <span>Crew List</span>
               </a>
             </li>
 
@@ -208,7 +213,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link {{ $active == 'message' ? '' : 'collapsed' }}" href="{{ route('message') }}">
-            <i class="bi bi-grid"></i>
+            <i class="bi bi-envelope"></i>
             <span>Message</span>
           </a>
         </li>
@@ -331,6 +336,7 @@
                 title: 'Success!',
                 text: '{{ session('success') }}',
                 showConfirmButton: true,
+                width: '400px'
             });
         }
         if('{{ session('error') }}'){
@@ -339,6 +345,7 @@
                 title: 'Error!',
                 text: '{{ session('error') }}',
                 showConfirmButton: true,
+                width: '400px'
             });
         }
     </script>

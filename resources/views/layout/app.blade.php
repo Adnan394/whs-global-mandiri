@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Karir | Pelayaran</title>
+    <title>Home | Siraka</title>
     <link rel="icon" type="image/png" href="{{ asset('image/siraka.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-white fixed-top py-3 shadow text-black fw-500">
+    <nav class="navbar navbar-expand-lg bg-white fixed-top py-1 shadow text-black fw-500">
         <div class="container">
             <a class="navbar-brand text-black d-flex" href="/">
                 <img src="{{ asset('image/siraka-logo.png') }}" height="50px" alt="">
-                <img src="{{ asset('image/logo-wgm.jpg') }}" height="50px" alt="">
+                <!--<img src="{{ asset('image/logo-wgm.jpg') }}" height="50px" alt="">-->
             </a>
             
             <div class="d-flex align-items-center gap-3 d-lg-none">
@@ -28,7 +28,7 @@
             </div>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav ms-auto mb-lg-0 mt-2">
                     <li class="nav-item mx-1">
                         <a class="nav-link text-black link-home {{ Request::is('/') ? 'active' : '' }}" href="/">Home</a>
                     </li>
@@ -47,7 +47,7 @@
                                 <p class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="{{ Auth::user()->image ? asset('userdata/avatar/' . Auth::user()->image) : asset('image/profile.jpg') }}"  class="me-2"
                                             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover" alt="">
-                                        <span class="text-dark" style="text-decoration: none !important; text-style: none !important">{{ \App\Models\Crew::where('user_id', Auth::user()->id)->first()->nickname ?? Auth::user()->name ?? '' }}</span>
+                                        <span class="text-dark" style="text-decoration: none !important; text-style: none !important">{{ \App\Models\crew::where('user_id', Auth::user()->id)->first()->nickname ?? Auth::user()->name ?? '' }}</span>
                                 </p>
     
                                 <ul class="dropdown-menu border-0 bg-white shadow py-4" style="width: 15rem">
@@ -58,7 +58,9 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person-fill me-2"></i>Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('lamaran_saya.index') }}"><i class="bi bi-bookmark-check-fill me-2"></i>Lowongan Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('change_password') }}"><i class="bi bi-gear me-2"></i>Change Password</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('lamaran_saya.index') }}"><i class="bi bi-bookmark-check-fill me-2"></i>My Applications</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('lamaran_saya.draft') }}"><i class="bi bi-file-earmark-arrow-up me-2"></i>Upload Draft File</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
                                 </ul>
@@ -120,7 +122,7 @@
 
                             @forelse ($data as $item)
                                 @php
-                                    $crew = \App\Models\Crew::find($item->crew_id);
+                                    $crew = \App\Models\crew::find($item->crew_id);
                                     $lastMessage = \App\Models\Message::where('crew_id', $item->crew_id)
                                         ->where('crewing_id', $item->crewing_id)
                                         ->orderBy('created_at', 'desc')
@@ -194,7 +196,7 @@
         @foreach ($dataModals as $item)
             @php
                 // Ambil data yang diperlukan untuk modal
-                $crew = \App\Models\Crew::find($item->crew_id);
+                $crew = \App\Models\crew::find($item->crew_id);
                 $chatData = \App\Models\Message::where('crew_id', $item->crew_id)
                     ->where('crewing_id', $item->crewing_id)
                     ->orderBy('created_at', 'asc')
@@ -209,7 +211,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <div>
-                                    <p class="mb-1">Chat dengan: <strong>{{ $crew->fullname ?? 'User' }}</strong></p>
+                                    <p class="mb-1">Chat with: <strong>{{ $crew->fullname ?? 'User' }}</strong></p>
                                 </div>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
@@ -310,7 +312,7 @@
     {{-- footer  --}}
     <footer style="background: #468dd4; height: 200px; display: flex; align-items: center; justify-content: center;">
         <div class="container text-white text-center">
-            <p class="m-0">Copyright &copy; 2023 Karir Pelayaran</p>
+            <p class="m-0">Developed by Dimas Darmawijaya</p>
         </div>
     </footer>
 
@@ -332,6 +334,7 @@
                 title: 'Success!',
                 text: '{{ session('success') }}',
                 showConfirmButton: true,
+                width: '400px'
             });
         }
         if('{{ session('error') }}'){
@@ -340,6 +343,16 @@
                 title: 'Error!',
                 text: '{{ session('error') }}',
                 showConfirmButton: true,
+                width: '400px'
+            });
+        }
+        if('{{ session('info') }}'){
+            Swal.fire({
+                icon: 'Warning',
+                title: 'Warning!',
+                text: '{{ session('info') }}',
+                showConfirmButton: true,
+                width: '400px'
             });
         }
     </script>

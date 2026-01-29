@@ -36,15 +36,29 @@ class CrewListController extends Controller
         $check = CrewList::where('crew_id', $request->crew_id)->first();
 
         if($check) {
-            return redirect()->back()->with('error', 'Crew Sudah Ditambahkan!');
+            return redirect()->back()->with('error', 'Data List Crew Exist!');
+        }
+        
+        $filename = '';
+        if($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = $file->getClientOriginalName();
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/crew_list/';
+            
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            $file->move($path, $filename);
         }
         
         CrewList::create([
             'crew_id' => $request->crew_id,
-            'ship_id' => $request->ship_id
+            'ship_id' => $request->ship_id,
+            'file' => $filename,
+            'status' => 0
         ]);
 
-        return redirect()->route('crew_list.index')->with('success', 'Data Berhasil Ditambahkan!');
+        return redirect()->route('crew_list.index')->with('success', 'Crew List Successfully Added!');
     }
 
     /**
@@ -68,18 +82,34 @@ class CrewListController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $check = CrewList::where('crew_id', $request->crew_id)->first();
-
-        if($check) {
-            return redirect()->back()->with('error', 'Crew Sudah Ditambahkan!');
+        $data = [];
+        
+        $filename = '';
+        if($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = $file->getClientOriginalName();
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/userdata/crew_list/';
+            
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            $file->move($path, $filename);
+            $data['file'] = $filename;
+        }
+        
+        if(!empty($request->crew_id)) {
+            $data['crew_id'] = $request->crew_id;
+        }
+        if(!empty($request->ship_id)) {
+            $data['ship_id'] = $request->ship_id;
+        }
+        if(!empty($request->status)) {
+            $data['status'] = $request->status;
         }
 
-        CrewList::where('id', $id)->update([
-            'crew_id' => $request->crew_id,
-            'ship_id' => $request->ship_id,
-        ]);
+        CrewList::where('id', $id)->update($data);
 
-        return redirect()->back()->with('success', 'Data Berhasil Diubah!');
+        return redirect()->back()->with('success', 'Crew List Successfully Updated!');
     }
 
     /**
@@ -88,6 +118,6 @@ class CrewListController extends Controller
     public function destroy(string $id)
     {
         CrewList::where('id', $id)->delete();
-        return redirect()->route('crew_list.index')->with('success', 'Data Berhasil Dihapus!');
+        return redirect()->route('crew_list.index')->with('success', 'Crew List Successfully Deleted!');
     }
 }

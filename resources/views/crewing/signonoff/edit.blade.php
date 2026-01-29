@@ -7,8 +7,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body p-5">
-                        <h5 class="card-title">Edit Sign On / Off</h5>
-
+                        <h5 class="card-title">Edit Assignment</h5>
                         <form action="{{ route('signonoff.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -18,7 +17,7 @@
                                     <select name="crew_id" id="crewSelect" class="form-select" required>
                                         <option value=""> -- Select Crew -- </option>
                                         @foreach ($crews as $item)
-                                            @if($item->id === $data->crew_id)
+                                            @if($item->id == $data->crew_id)
                                                 <option value="{{ $item->id }}" data-rank="{{ $item->rank_id }}" selected>
                                                     {{ $item->fullname }}
                                                 </option>
@@ -63,7 +62,18 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mt-4 w-100 py-2 m-0">Tambah Kapal</button>
+                            <div class="d-flex gap-3 mb-3 p-0">
+                                <div class="w-100 m-0">
+                                    <label for="" class="form-label">Change Status</label>
+                                    <select name="status" id="" class="form-select" required>
+                                        <option value="">-- Select Status --</option>
+                                        <option value="2">Accepted</option>
+                                        <option value="3">Decline</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mt-4 w-100 py-2 m-0">Edit Assignment</button>
                         </form>
                     </div>
                 </div>
@@ -80,16 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const crewSelect = document.getElementById('crewSelect');
     const rankSelect = document.getElementById('rankSelect');
 
-    crewSelect.addEventListener('change', function() {
+    function updateRank() {
         const selectedOption = crewSelect.options[crewSelect.selectedIndex];
         const rankId = selectedOption.getAttribute('data-rank');
 
-        if (rankId) {
-            // otomatis pilih rank yang sesuai
-            rankSelect.value = rankId;
-        } else {
-            rankSelect.value = '';
-        }
-    });
+        rankSelect.value = rankId ? rankId : '';
+    }
+
+    // jalan saat change
+    crewSelect.addEventListener('change', updateRank);
+
+    // 🔥 langsung jalan saat pertama kali halaman load
+    updateRank();
 });
 </script>
+

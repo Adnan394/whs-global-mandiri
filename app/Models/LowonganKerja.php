@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\Rank;
+use App\Models\rank;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\EmploymentType;
@@ -12,15 +12,15 @@ class LowonganKerja extends Model
     protected $guarded = ['id'];
 
     public function rank() {
-        return $this->belongsTo(Rank::class);
+        return $this->belongsTo(rank::class);
     }
 
-    public function employment_type() {
-        return $this->belongsTo(EmploymentType::class);
-    }
-    public function experience_level() {
-        return $this->belongsTo(ExperienceLevel::class);
-    }
+    // public function employment_type() {
+    //     return $this->belongsTo(EmploymentType::class);
+    // }
+    // public function experience_level() {
+    //     return $this->belongsTo(ExperienceLevel::class);
+    // }
 
     public function lamaran() {
         return $this->belongsTo(UserLamaran::class);

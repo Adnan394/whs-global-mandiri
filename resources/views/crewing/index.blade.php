@@ -57,6 +57,48 @@
                     </div>
                 </div>
                 </div>
+              <div class="">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">ASSIGNMENT</h5>
+                    <!-- Bar Chart -->
+                    <canvas id="barChart2" style="max-height: 400px;"></canvas>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const labels = {!! json_encode($assignment->keys()) !!};  // nama rank
+                            const dataValues = {!! json_encode($assignment->values()) !!}; // jumlah per rank
+
+                            new Chart(document.querySelector('#barChart2'), {
+                                type: 'bar',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Total per Assignment',
+                                        data: dataValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                        borderColor: 'rgb(54, 162, 235)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                precision: 0 // biar gak ada koma
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                        </script>
+                    <!-- End Bar CHart -->
+
+                    </div>
+                </div>
+                </div>
             </div>
           </div>
           <!-- End Left side columns -->

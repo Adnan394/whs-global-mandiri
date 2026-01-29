@@ -18,12 +18,12 @@
                                     <select name="crew_id" id="crewSelect" class="form-select" required>
                                         <option value=""> -- Select Crew -- </option>
                                         @foreach ($crews as $item)
-                                            @if($item->id == $data->crew_id)
-                                                <option value="{{ $item->id }}" data-ship="{{ $item->ship_id }}" selected>
+                                            @if($item->crew_id == $data->crew_id)
+                                                <option value="{{ $item->crew_id }}" data-ship="{{ $item->ship_id }}" selected>
                                                     {{ $item->fullname }}
                                                 </option>
                                             @endif
-                                            <option value="{{ $item->id }}" data-ship="{{ $item->ship_id }}">
+                                            <option value="{{ $item->crew_id }}" data-ship="{{ $item->ship_id }}">
                                                 {{ $item->fullname }}
                                             </option>
                                         @endforeach
@@ -69,6 +69,16 @@
                                 <div class="w-100 m-0">
                                     <label for="" class="form-label">File</label>
                                     <input type="file" class="form-control" name="file">
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3 mb-3 p-0">
+                                <div class="w-100 m-0">
+                                    <label for="" class="form-label">Change Status</label>
+                                    <select name="status" id="" class="form-select" required>
+                                        <option value="">-- Select Status --</option>
+                                        <option value="2">Accepted</option>
+                                        <option value="3">Decline</option>
+                                    </select>
                                 </div>
                             </div>
 

@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('seaferer_medical_certificate')->nullable();
             $table->string('curriculum_vitae')->nullable();
             $table->string('additional_documents')->nullable();
+            $table->string('seamans_book')->nullable();
             $table->foreignId('rank_id')->constrained('ranks');
             $table->timestamps();
         });

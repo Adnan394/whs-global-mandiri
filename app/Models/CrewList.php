@@ -15,6 +15,6 @@ class CrewList extends Model
 
     public function crew()
     {
-        return $this->belongsTo(Crew::class);
+        return $this->belongsTo(crew::class);
     }
 }

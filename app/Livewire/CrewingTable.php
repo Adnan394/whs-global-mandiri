@@ -13,7 +13,7 @@ class CrewingTable extends Component
 
     public function render()
     {
-        $ranks = rank::orderBy('name')->get();
+        $ranks = rank::where('type', 1)->orderBy('name')->get();
 
         $query = crew::where('is_active', 0);
 

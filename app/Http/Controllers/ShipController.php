@@ -41,7 +41,7 @@ class ShipController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('ship.index')->with('success', 'Data Berhasil Ditambahkan!');
+        return redirect()->route('ship.index')->with('success', 'Ship Successfully Added!');
     }
 
     /**
@@ -76,7 +76,7 @@ class ShipController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('ship.index')->with('success', 'Data Berhasil Diubah!');
+        return redirect()->route('ship.index')->with('success', 'Ship Successfully Updated!');
     }
 
     /**
@@ -85,6 +85,6 @@ class ShipController extends Controller
     public function destroy(string $id)
     {
         Ship::where('id', $id)->delete();
-        return redirect()->route('ship.index')->with('success', 'Data Berhasil Dihapus!');
+        return redirect()->route('ship.index')->with('success', 'Ship Successfully Deleted!');
     }
 }

@@ -60,7 +60,7 @@ class DataLamaranController extends Controller
                 ]);
             }
 
-            return redirect()->back()->with('success', 'Pesan berhasil dikirim!');
+            return redirect()->back()->with('success', 'Send Message Successfully!');
         }else {
             Chat::create([
                 'user_id' => Auth::user()->id,
@@ -79,7 +79,7 @@ class DataLamaranController extends Controller
                 ]);
             }
 
-            return redirect()->back()->with('success', 'Pesan berhasil dikirim!');
+            return redirect()->back()->with('success', 'Send Message Successfully!');
         }
         return redirect()->back();
     }

@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body p-5">
-                        <h5 class="card-title">Tambah Lowongan Kerja</h5>
+                        <h5 class="card-title">Add Job Vacancy</h5>
                         <form action="{{ route('lowongan.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row mb-3">
@@ -16,73 +16,44 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label class="form-label">Deskripsi</label>
+                                <label class="form-label">Description</label>
                                 <div class="w-100 p-0"> 
                                     <textarea id="description" name="description" class="w-100"></textarea>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label class="form-label">Requirement</label>
-                                <div class="w-100 p-0">
-                                    <textarea id="requirement" name="requirement" class="w-100"></textarea>
-                                </div>
-                            </div>
-
                             <div class="d-flex gap-3 mb-3 p-0">
                                 <div class="w-100 m-0">
-                                    <label for="" class="form-label">Posisi</label>
+                                    <label for="" class="form-label">Rank</label>
                                     <select name="rank_id" id="" class="form-select" required>
-                                        <option value=""> -- Pilih Posisi -- </option>
+                                        <option value=""> -- Select Position -- </option>
                                         @foreach ($ranks as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </option>
                                     </select>
                                 </div>
-                                <div class="w-100 m-0">
-                                    <label for="" class="form-label">Pendidikan Terakhir</label>
-                                    <input type="text" name="education" id="education" class="form-control">
-                                </div>
-                            </div>
-                            <div class="d-flex p-0 m-0 gap-3 mb-3">
-                                <div class="w-100">
-                                    <label for="" class="form-label">Tipe</label>
-                                    <select name="employment_type" id="" class="form-select" required>
-                                        <option value=""> -- Pilih Tipe -- </option>
-                                        @foreach ($employment_types as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </option>
-                                    </select>
-                                </div>
-                                <div class="w-100">
-                                    <label for="" class="form-label">Level</label>
-                                    <select name="experience_level" id="" class="form-select" required>
-                                        <option value=""> -- Pilih Level -- </option>
-                                        @foreach ($experience_levels as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </option>
-                                    </select>
-                                </div>
                             </div>
 
                             <div class="d-flex p-0 m-0 gap-3 mb-3">
                                 <div class="w-100">
-                                    <label for="" class="form-label">Gambar</label>
+                                    <label for="" class="form-label">Image</label>
                                     <input type="file" class="form-control" name="image" accept="image/*">
                                 </div>
-                                <div class="w-100">
-                                    <label for="" class="form-label">Sallary</label>
-                                    <input type="number" class="form-control" name="sallary">
+                                <div class="w-50">
+                                    <label for="" class="form-label">Sallary (from)</label>
+                                    <input type="text" class="form-control" name="sallary" id="salaryInput">
+                                </div>
+                                <div class="w-50">
+                                    <label for="" class="form-label">Sallary (to)</label>
+                                    <input type="text" class="form-control" name="sallary2" id="salaryInput2">
                                 </div>
                             </div>
 
                             
-                            <button id="tambahPertanyaan" class="btn btn-secondary mb-3" type="button">Tambah Pertanyaan</button>
+                            <button id="tambahPertanyaan" class="btn btn-secondary mb-3" type="button">Add Questions</button>
                             <div id="pertanyaanContainer" class="mb-3"></div>
 
-                            <button type="submit" class="btn btn-primary mt-4 w-100 py-2 m-0">Tambah Lowongan Kerja</button>
+                            <button type="submit" class="btn btn-primary mt-4 w-100 py-2 m-0">Add Job Vacancy</button>
                         </form>
                     </div>
                 </div>
@@ -131,8 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
         div.innerHTML = `
             <label class="form-label">Pertanyaan ${count}</label>
             <div class="d-flex gap-2">
-                <input type="text" name="pertanyaan[]" class="form-control" placeholder="Masukkan pertanyaan ${count}" required>
-                <button type="button" class="btn btn-danger btn-sm hapus-pertanyaan">Hapus</button>
+                <input type="text" name="pertanyaan[]" class="form-control" placeholder="type questions ${count}" required>
+                <button type="button" class="btn btn-danger btn-sm hapus-pertanyaan">Delete</button>
             </div>
         `;
 
@@ -150,8 +121,43 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.pertanyaan-item').forEach((item, index) => {
             count = index + 1;
             item.querySelector('label').innerText = `Pertanyaan ${count}`;
-            item.querySelector('input').placeholder = `Masukkan pertanyaan ${count}`;
+            item.querySelector('input').placeholder = `type questions ${count}`;
         });
     }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const salaryInput = document.getElementById('salaryInput');
+    const salaryInput2 = document.getElementById('salaryInput2');
+    
+    salaryInput.addEventListener('input', function(e) {
+        let value = this.value.replace(/\D/g, ''); // hapus semua non-digit
+        if (value === '') {
+            this.value = '';
+            return;
+        }
+
+        // Format jadi 1.000.000
+        this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    });
+    salaryInput2.addEventListener('input', function(e) {
+        let value = this.value.replace(/\D/g, ''); // hapus semua non-digit
+        if (value === '') {
+            this.value = '';
+            return;
+        }
+
+        // Format jadi 1.000.000
+        this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    });
+
+    // Sebelum submit, bersihkan titik-titik biar aman di database
+    document.querySelector('form').addEventListener('submit', function() {
+        salaryInput.value = salaryInput.value.replace(/\./g, '');
+        salaryInput2.value = salaryInput2.value.replace(/\./g, '');
+    });
+
 });
 </script>

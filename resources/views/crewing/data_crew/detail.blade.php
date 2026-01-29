@@ -3,14 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
+<link rel="icon" type="image/png" href="{{ asset('image/siraka.png') }}">
 <title>{{ $data->fullname }}</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
-
-<!-- Favicons -->
-<link href="{{ asset('NiceAdmin/assets/img/favicon.png') }}" rel="icon" />
-<link href="{{ asset('NiceAdmin/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" />
 
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect" />
@@ -103,15 +99,13 @@
                     <div class="col-4 fw-bold">Additional Documents</div>
                     <div class="col-8">: <a href="{{ asset('/userdata/additional_document/' . $data->additional_documents) }}" target="_blank">{{ $data->additional_documents }}</a></div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">Seaman's Book</div>
+                    <div class="col-8">: <a href="{{ asset('/userdata/seamans_book/' . $data->seamans_book) }}" target="_blank">{{ $data->seamans_book }}</a></div>
+                </div>
             </div>
         </div>
     </div>
-
-    {{-- <script>
-        window.onload = function() {
-            window.print();
-        };
-    </script> --}}
 
 </body>
 </html>
